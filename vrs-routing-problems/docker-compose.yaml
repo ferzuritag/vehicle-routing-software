@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  api:
+    build: .
+    ports:
+      - 8002:80
+    environment:
+      - AUTH_API_PATH=${AUTH_API_PATH}
+      - AUTH_API_KEY=${AUTH_API_KEY}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - MONGO_CONNECTION_STRING=${MONGO_CONNECTION_STRING}
+    depends_on:
+      - db
+  db:
+    image: mongo:7.0
+    ports:
+      - 27018:27017

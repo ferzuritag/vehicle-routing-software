@@ -1,0 +1,8 @@
+services:
+  ui-app:
+    build: .
+    ports:
+      - 80:80
+    environment:
+      - VITE_OPEN_ROUTE_BASE_URL=${VITE_OPEN_ROUTE_BASE_URL}
+      - VITE_OPEN_ROUTE_BASE_URL_API_KEY=${VITE_OPEN_ROUTE_BASE_URL_API_KEY}

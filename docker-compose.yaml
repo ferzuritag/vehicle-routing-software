@@ -1,0 +1,114 @@
+services:
+  api-users:
+    build: ./vrs-users-service
+    ports:
+      - 8000:80
+    environment:
+      - AUTH_API_PATH=${AUTH_API_PATH}
+      - USERS_API_PATH=${USERS_API_PATH}
+      - USERS_API_KEY=${USERS_API_KEY}
+      - AUTH_API_KEY=${AUTH_API_KEY}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - SMTP_SERVER=${SMTP_SERVER}
+      - SMTP_SERVER_PORT=${SMTP_SERVER_PORT}
+      - SMTP_SERVER_USER=${SMTP_SERVER_USER}
+      - SMTP_SERVER_PASSWORD=${SMTP_SERVER_PASSWORD}
+      - MONGO_CONNECTION_STRING=${USERS_MONGO_CONNECTION_STRING}
+    depends_on:
+      - users-db
+
+  users-db:
+    image: mongo:7.0
+    ports:
+      - 27017:27017
+
+  api-auth:
+    build: ./vrs-auth-service
+    ports:
+      - 8001:80
+    environment:
+      - USERS_API_PATH=${USERS_API_PATH}
+      - USERS_API_KEY=${USERS_API_KEY}
+      - AUTH_API_KEY=${AUTH_API_KEY}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - REDIS_CONNECTION_STRING=${AUTH_REDIS_CONNECTION_STRING}
+    depends_on:
+      - auth-db
+
+  auth-db:
+    image: redis:7.2.4
+    ports:
+      - 6379:6379
+
+  api-routing-problems:
+    build: ./vrs-routing-problems-service
+    ports:
+      - 8002:80
+    environment:
+      - AUTH_API_PATH=${AUTH_API_PATH}
+      - AUTH_API_KEY=${AUTH_API_KEY}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - MONGO_CONNECTION_STRING=${ROUTING_PROBLEMS_MONGO_CONNECTION_STRING}
+      - ROUTING_PROBLEMS_SOLVER_ENDPOINTS=${ROUTING_PROBLEMS_SOLVER_ENDPOINTS}
+    depends_on:
+      - routing-problems-db
+
+  routing-problems-db:
+    image: mongo:7.0
+    ports:
+      - 27018:27017
+
+  vrp-solver:
+    build: ./vrs-vrp-solver
+    environment:
+      - OPEN_ROUTE_BASE_URL=${OPEN_ROUTE_BASE_URL}
+    ports:
+      - 8003:80
+
+  cvrp-solver:
+    build: ./vrs-cvrp-solver
+    ports:
+      - 8004:80
+
+  vrptw-solver:
+    build: ./vrs-vrptw-solver
+    ports:
+      - 8005:80
+
+  ui-app:
+    build: ./vrs-ui
+    ports:
+      - 80:80
+    environment:
+      - VITE_OPEN_ROUTE_BASE_URL=${VITE_OPEN_ROUTE_BASE_URL}
+      - VITE_OPEN_ROUTE_BASE_URL_API_KEY=${VITE_OPEN_ROUTE_BASE_URL_API_KEY}
+
+  ors-app:
+    container_name: ors-app
+    ports:
+      - "8006:8082"
+      - "9001:9001"
+    image: openrouteservice/openrouteservice:v8.0.0
+
+    volumes:
+      - "C:/ors:/home/ors"
+      - "C:/ors/graphs:/home/ors/graphs"
+      - "C:/ors/elevation_cache:/home/ors/elevation_cache"
+      - "C:/ors/config:/home/ors/config"
+      - "C:/ors/logs:/home/ors/logs"
+      - "C:/ors/files:/home/ors/files"
+
+    environment:
+      REBUILD_GRAPHS: True
+      CONTAINER_LOG_LEVEL: INFO L
+      ors.engine.profile_default.build.source_file: /home/ors/files/master.pbf
+      XMS: 1g
+      XMX: 2g
+      ADDITIONAL_JAVA_OPTS: ""
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:8082/ors/v2/health || exit 1
+      start_period: 1m
+      interval: 10s
+      timeout: 2s
+      retries: 3
+      disable: false

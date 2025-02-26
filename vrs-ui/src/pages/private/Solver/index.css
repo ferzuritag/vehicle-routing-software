@@ -1,0 +1,30 @@
+.leaflet-container {
+    width: 100%;
+    height: 600px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.leaflet-routing-container-hide {
+    display: none;
+}
+
+.map-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    z-index: 2000000;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: 30%;
+    color: #fff;
+    font-size: 4rem;
+}
+
+.map-box {
+    position: relative;
+}
