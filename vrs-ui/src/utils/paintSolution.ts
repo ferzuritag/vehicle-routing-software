@@ -30,15 +30,17 @@ export const getGeoJSONLayers = async (
         const { data } = await axios.post(
           `${
             import.meta.env.VITE_OPEN_ROUTE_BASE_URL
-          }/v2/directions/driving-car/geojson?api-key=${
-            import.meta.env.VITE_OPEN_ROUTE_BASE_URL_API_KEY
-          }`,
+          }/v2/directions/driving-car/geojson`,
           {
             coordinates: [
               [locations[currentIndex].long, locations[currentIndex].lat],
               [locations[nextIndex].long, locations[nextIndex].lat],
             ],
             language: "es",
+          },{
+            headers: {
+              Authorization: import.meta.env.VITE_OPEN_ROUTE_API_KEY
+            }
           }
         );
         layers[solutionIndex].push(data);

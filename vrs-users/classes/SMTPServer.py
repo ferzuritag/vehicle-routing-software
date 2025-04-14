@@ -35,8 +35,7 @@ class SMTPServer:
             server.starttls()  # Inicia la capa de seguridad
             server.login(smtp_username, smtp_password)
             server.sendmail(from_email, to_email, message.as_string())
-            print(F'Confirmation email sended to {destination_email}')
         except Exception as e:
-            print(f'Error when sending email to {destination_email}', e)
+            pass
         finally:
             server.quit()  # Cierra la conexión SMTP

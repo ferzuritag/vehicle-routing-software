@@ -27,8 +27,6 @@ async def log_in(request: Request):
         'api-key': os.getenv('USERS_API_KEY')
     })
 
-    print(response.status_code)
-
     if response.status_code == 200:
 
         user_data = response.json()

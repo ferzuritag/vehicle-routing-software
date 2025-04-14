@@ -1,5 +1,6 @@
 import requests
 import os
+from fastapi import HTTPException
 
 def toCoordinatesPair(location: dict):
     return [location['long'], location['lat']]
@@ -28,8 +29,6 @@ def get_distance_matrix(locations):
             raise ValueError("NONE_VALUE_ON_MATRIX")
         
         distances_array = [[int(element) for element in row] for row in data['distances']]
-
-        print(data['distances'])
         return distances_array
     else:
-        return []
+        raise HTTPException(status_code=500, detail="Error del servidor tratando de obtener las matrices de distancia")

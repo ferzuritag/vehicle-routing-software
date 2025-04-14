@@ -1,6 +1,6 @@
 services:
   api-users:
-    build: ./vrs-users-service
+    build: ./vrs-users
     ports:
       - 8000:80
     environment:
@@ -23,7 +23,7 @@ services:
       - 27017:27017
 
   api-auth:
-    build: ./vrs-auth-service
+    build: ./vrs-auth
     ports:
       - 8001:80
     environment:
@@ -41,7 +41,7 @@ services:
       - 6379:6379
 
   api-routing-problems:
-    build: ./vrs-routing-problems-service
+    build: ./vrs-routing-problems
     ports:
       - 8002:80
     environment:
@@ -59,19 +59,26 @@ services:
       - 27018:27017
 
   vrp-solver:
-    build: ./vrs-vrp-solver
+    build: ./vrs-vrp
     environment:
       - OPEN_ROUTE_BASE_URL=${OPEN_ROUTE_BASE_URL}
+      - OPEN_ROUTE_API_KEY=${OPEN_ROUT_API_KEY}
     ports:
       - 8003:80
 
   cvrp-solver:
-    build: ./vrs-cvrp-solver
+    build: ./vrs-cvrp
+    environment:
+      - OPEN_ROUTE_BASE_URL=${OPEN_ROUTE_BASE_URL}
+      - OPEN_ROUTE_API_KEY=${OPEN_ROUT_API_KEY}
     ports:
       - 8004:80
 
   vrptw-solver:
-    build: ./vrs-vrptw-solver
+    build: ./vrs-vrptw
+    environment:
+      - OPEN_ROUTE_BASE_URL=${OPEN_ROUTE_BASE_URL}
+      - OPEN_ROUTE_API_KEY=${OPEN_ROUT_API_KEY}
     ports:
       - 8005:80
 
@@ -80,8 +87,8 @@ services:
     ports:
       - 80:80
     environment:
-      - VITE_OPEN_ROUTE_BASE_URL=${VITE_OPEN_ROUTE_BASE_URL}
-      - VITE_OPEN_ROUTE_BASE_URL_API_KEY=${VITE_OPEN_ROUTE_BASE_URL_API_KEY}
+      - VITE_OPEN_ROUTE_BASE_URL=${OPEN_ROUTE_BASE_URL}
+      - VITE_OPEN_ROUTE_API_KEY=${OPEN_ROUTE_API_KEY}
 
   ors-app:
     container_name: ors-app

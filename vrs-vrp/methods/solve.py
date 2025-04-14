@@ -1,4 +1,3 @@
-import math
 from fastapi import Request, HTTPException
 from utils.get_distance_matrix import get_distance_matrix
 from ortools.constraint_solver import routing_enums_pb2
@@ -30,7 +29,6 @@ async def solve(request: Request):
     if (locations is None or isinstance(locations, list) == False): raise HTTPException(status_code=400, detail='locations should be an array')
     
     index_of_starting_location = find_starting_node(locations)
-
     number_of_vehicles = locations[index_of_starting_location].get('number_of_vehicles')
     max_distance_per_vehicle = locations[index_of_starting_location].get('max_distance')
 
@@ -75,10 +73,11 @@ async def solve(request: Request):
 
     # Setting first solution heuristic.
     search_parameters = pywrapcp.DefaultRoutingSearchParameters()
-    search_parameters.first_solution_strategy = (
-        routing_enums_pb2.FirstSolutionStrategy.PATH_CHEAPEST_ARC
+    search_parameters.local_search_metaheuristic = (
+        routing_enums_pb2.LocalSearchMetaheuristic.GUIDED_LOCAL_SEARCH
     )
-    search_parameters.time_limit.seconds = 5
+    search_parameters.time_limit.FromSeconds(10)
+
     # Solve the problem.
     solution = routing.SolveWithParameters(search_parameters)
 
