@@ -16,14 +16,15 @@ def get_distance_matrix(locations):
     }
     payload = {
         'locations': coordinate_pairs,
-        'metrics': ['distance']
+        'metrics': ['duration']
     }
 
     # Make the POST request
     response = requests.post(url, json=payload, headers=headers)
+    
+    print(response.json())
     if response.status_code == 200:
         data = response.json()
-        
         if any(None in row for row in data['durations']):
             raise ValueError("NONE_VALUE_ON_MATRIX")
         return [[int(element) for element in row] for row in data['durations']]

@@ -23,9 +23,9 @@ def get_distance_matrix(locations):
 
     if response.status_code == 200:
         data = response.json()
-        if any(None in row for row in data['durations']):
+        if any(None in row for row in data['distances']):
             raise ValueError("NONE_VALUE_ON_MATRIX")
         
-        return [[int(element) for element in row] for row in data['durations']]
+        return [[int(element) for element in row] for row in data['distances']]
     else:
         return []

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const problemsClient = axios.create({
-  baseURL: "http://localhost:8002",
+  baseURL: import.meta.env.VITE_ROUTING_PROBLEMS_API_PATH,
 });
 
 problemsClient.interceptors.request.use(
