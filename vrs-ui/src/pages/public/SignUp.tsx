@@ -43,14 +43,14 @@ const SignUp: FC = () => {
           });
         } else {
           toast({
-            title: "An error ocurred when trying sign up",
+            title: "Un error ha ocurrido mientras se trataba de registar al ususario",
             status: "error",
           });
         }
       },
       onSuccess: () => {
         toast({
-          title: "Successful registration, check your email to confirm account",
+          title: "Registro exitoso",
           status: "success",
         });
         navigate("/sign-in");

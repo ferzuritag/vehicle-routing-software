@@ -1,6 +1,7 @@
 from fastapi import Request, HTTPException
 import json
 
+import os
 from classes.UsersDAO import UsersDAO
 from classes.User import User
 
@@ -29,7 +30,12 @@ async def sign_in_user(request: Request):
     if found_user_by_email is not None:
         raise HTTPException(409, 'An user with that email is already registered')
 
-    user = User(email=email,password=password,active=False,verified=False)
+    user = None
+
+    if os.getenv('CONFIRM_WITH_EMAIL') == "TRUE":
+        user = User(email=email,password=password,active=False,verified=False)
+    else:
+        user = User(email=email,password=password,active=True,verified=True)
 
     usersDAO.insert_user(user)
     
