@@ -226,8 +226,8 @@ const Solver: FC = () => {
         style={{
           position: "relative",
         }}
-        center={[49.3988, 8.6724]}
-        zoom={14}
+        center={[ 23.634501, -102.552784,]}
+        zoom={5}
         scrollWheelZoom={true}
         doubleClickZoom={false}
       >
@@ -414,7 +414,7 @@ const Solver: FC = () => {
                     <Text>No hay rutas asignadas para este vehículo</Text>
                   )}
                   {routingProblem.solution &&
-                    routingProblem.solution?.length > 1 &&
+                    routingProblem.solution?.length >= 1 &&
                     arr.map((geo, geoKey) => (
                       <div key={geoKey}>
                         {routingProblem && routingProblem.solution && (

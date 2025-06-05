@@ -46,25 +46,22 @@ const MarkerHandler: FunctionComponent<MarkerHandlerProps> = ({
   const { id: routingId } = useParams();
   const { routingProblem, setRoutingProblem } = useRoutingProblem();
 
-  const addLocation = (newMark: Location) =>
+  const addLocation = (newMark: Location) =>{
     setRoutingProblem({
       ...(routingProblem as RoutingProblem),
       locations: [...(routingProblem as RoutingProblem).locations, newMark],
     });
+    if (newMark?.lat && newMark.long) {
+      map.setView([newMark?.lat, newMark?.long], map.getZoom());
+  }
+}
+
   const setLocations = (locations: Location[]) =>
     setRoutingProblem({ ...(routingProblem as RoutingProblem), locations });
 
   useEffect(() => {
     setMapContext(map);
   }, [map]);
-
-  useEffect(() => {
-    const lastLocation =
-      routingProblem?.locations[routingProblem.locations.length - 1];
-    if (lastLocation?.lat && lastLocation.long) {
-      map.setView([lastLocation?.lat, lastLocation?.long], map.getZoom());
-    }
-  }, [routingProblem?.locations]);
 
   return routingProblem?.locations?.map((markerData, id: number) => (
     <Marker

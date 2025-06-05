@@ -75,7 +75,7 @@ export const DangerButton: FunctionComponent<
                 onClose();
               }}
             >
-              Confirm
+              Confirmar
             </PrimaryButton>
             <Button
               bg="red.600"
@@ -90,7 +90,7 @@ export const DangerButton: FunctionComponent<
               ml={2}
               aria-disabled={props.disabled}
             >
-              Cancel
+              Cancelar
             </Button>
           </ModalFooter>
         </ModalContent>
