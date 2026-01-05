@@ -4,6 +4,21 @@ FROM node:20-alpine AS builder
 # Establecer directorio de trabajo
 WORKDIR /app
 
+# ===== Variables de entorno para el build =====
+# Se reciben desde el sistema / docker-compose como build args
+ARG OPEN_ROUTE_BASE_URL
+ARG OPEN_ROUTE_API_KEY
+ARG AUTH_API_PATH
+ARG ROUTING_PROBLEMS_API_PATH
+ARG USERS_API_PATH
+
+# Se exportan para que npm (Vite/React) pueda leerlas
+ENV VITE_OPEN_ROUTE_BASE_URL=${OPEN_ROUTE_BASE_URL}
+ENV VITE_OPEN_ROUTE_API_KEY=${OPEN_ROUTE_API_KEY}
+ENV VITE_AUTH_API_PATH=${AUTH_API_PATH}
+ENV VITE_ROUTING_PROBLEMS_API_PATH=${ROUTING_PROBLEMS_API_PATH}
+ENV VITE_USERS_API_PATH=${USERS_API_PATH}
+
 # Copiar dependencias
 COPY package.json package-lock.json ./
 
@@ -16,6 +31,7 @@ COPY . .
 # Construir la aplicación para producción
 RUN npm run build
 
+# =================================================
 # Etapa 2: Servir la aplicación con Nginx
 FROM nginx:alpine
 

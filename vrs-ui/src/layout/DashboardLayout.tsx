@@ -38,6 +38,7 @@ const Dashboard: FC = () => {
         payload: problemsData?.data.routing_problems,
       });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [problemsData]);
   return (
     <PrivateRoute>

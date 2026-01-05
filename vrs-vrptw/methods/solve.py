@@ -52,7 +52,7 @@ async def solve(request: Request):
             raise HTTPException(status_code=400, detail="Una localización en el mapa es inalcanzable.")
         else:
             raise HTTPException(status_code=500, detail="Sucedió un error imprevisto, por favor intente de nuevo.")
-
+        
     # Solving
     manager = pywrapcp.RoutingIndexManager(
         len(time_matrix), number_of_vehicles, index_of_starting_location
