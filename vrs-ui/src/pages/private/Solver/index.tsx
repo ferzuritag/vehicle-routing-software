@@ -377,6 +377,7 @@ const Solver: FC = () => {
           {routingProblem?.geoJSON && (
             <>
               Distancia Total Recorrida:{" "}
+
               {routingProblem?.geoJSON?.reduce((acum, currVal) => {
                 let acumSegment = 0;
                 currVal.forEach((geo) => {
@@ -387,7 +388,7 @@ const Solver: FC = () => {
                   });
                 });
                 return acumSegment + acum;
-              }, 0)}{" "}
+              }, 0).toFixed(2)}{" "}
               metros
             </>
           )}
