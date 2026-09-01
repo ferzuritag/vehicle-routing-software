@@ -227,7 +227,7 @@ const Solver: FC = () => {
           position: "relative",
         }}
         center={[ 23.634501, -102.552784,]}
-        zoom={5}
+        zoom={7.4}
         scrollWheelZoom={true}
         doubleClickZoom={false}
       >

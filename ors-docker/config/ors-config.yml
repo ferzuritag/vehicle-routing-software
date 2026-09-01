@@ -1,0 +1,17 @@
+ors:
+  engine:
+    profile_default:
+      build:
+        source_file: /home/ors/files/mexico-latest.osm.pbf
+
+    profiles:
+      driving-car:
+        enabled: true
+        service:
+          maximum_distance: 1000000000
+          maximum_distance_dynamic_weights: 1000000000
+          maximum_distance_avoid_areas: 1000000000
+          maximum_waypoints: 1000
+          maximum_snapping_radius: 400
+          maximum_distance_alternative_routes: 1000000000
+          maximum_distance_round_trip_routes: 1000000000

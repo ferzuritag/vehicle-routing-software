@@ -3,3 +3,7 @@
 **/node_modules
 
 **/.env
+
+**/ors-docker/graphs
+**/ors-docker/elevation_cache
+**/ors-docker/logs
